@@ -1,0 +1,31 @@
+<div class="container py-5">
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+
+    <h2>マイページ</h2>
+
+    <h4>ユーザー名</h4>
+    <p><%= current_user.name %></p>
+
+    <h4>メールアドレス</h4>
+    <p><%= current_user.email %></p>
+
+    <hr>
+    <%= form_with model: @user, url: mypage_path, method: :patch do |f| %>
+      <h2>名前変更</h2>
+      <div class="form-group">
+        <%= f.label :name, '新しい名前' %>
+        <%= f.text_field :name, class: 'form-control' %>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-6 mx-auto">
+            <%= f.submit '変更する', class: 'btn btn-outline-secondary btn-block' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="container py-5">
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <div class="row">
+        <% if params[:search].present? %>
+          <h2>検索結果</h2>
+        <% else %>
+          <h2>投稿一覧</h2>
+        <% end %>
+        <%= render "public/searches/serach" %>
+      </div>
+      <div class="row">
+        <% @posts.each do |post| %>
+          <div class="col-md-6 mb-3">
+            <div class="card">
+              <div class="card-header">
+
+                <span>
+                  <%= link_to post.title, "/posts/#{post.id}" %>
+                </span>
+
+
+              </div>
+              <div class="card-body">
+                
+                  <% if post.image.attached? %>
+                    <%= image_tag post.image, size: "150x100" %>
+                  <% else %>
+                    <%= image_tag 'no_image', size: "150x100" %>
+                  <% end %>
+                
+                <div class="card-text">
+                  <%= post.body.truncate(10) %>
+                </div>
+              </div>
+              <div class="card-footer text-right">
+                <div>
+                  <%= post.user.name %>
+                </div>
+                <small class="text-black-50">
+                  <%= post.created_at.in_time_zone('Asia/Tokyo').strftime('%Y年%m月%d日 %H時%m分') %>
+                </small>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
