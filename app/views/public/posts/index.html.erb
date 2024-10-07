@@ -22,13 +22,13 @@
 
               </div>
               <div class="card-body">
-                
+
                   <% if post.image.attached? %>
-                    <%= image_tag post.image, size: "150x100" %>
+                    <%= image_tag post.image.variant(resize_to_limit: [150, 150]).processed, class: 'img-fluid' %>
                   <% else %>
-                    <%= image_tag 'no_image', size: "150x100" %>
+                    <%= image_tag 'no_image.jpg', class: 'img-fluid' %>
                   <% end %>
-                
+
                 <div class="card-text">
                   <%= post.body.truncate(10) %>
                 </div>
