@@ -1,0 +1,20 @@
+<div class="container py-5">
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <h2>ユーザー一覧</h2>
+      <ul>
+        <% @users.each do |user| %>
+          <li>
+            <%= link_to user.name, edit_admin_user_path(user) %>&nbsp;-&nbsp;
+            <%= user.email %>&nbsp;-&nbsp;
+                  <%= link_to user.is_deleted ? '<span class="text-danger">無効</span>'.html_safe : '<span class="text-primary">有効</span>'.html_safe,
+                  admin_user_path(user),
+                  method: :patch,
+                  data: {confirm: 'フラグを反転させますがよろしいですか？'}
+            %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

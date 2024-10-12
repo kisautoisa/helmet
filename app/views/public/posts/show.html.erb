@@ -44,10 +44,24 @@
           <%= simple_format(comment.comment, sanitize: true, class: 'm-0') %>
         </div>
         <div class="card-footer">
-          <%= comment.user.name %>
-          <small class="text-black-50">
-            <%= comment.created_at.in_time_zone('Asia/Tokyo').strftime('%Y年%m月%d日 %H時%m分') %>
-          </small>
+          <div class="d-block d-lg-flex justify-content-between">
+            <div>
+              <%= comment.user.name %>
+            </div>
+            <div>
+              <small class="text-black-50">
+                <%= comment.created_at.in_time_zone('Asia/Tokyo').strftime('%Y年%m月%d日 %H時%m分') %>
+              </small>
+            </div>
+            <% if comment.user == current_user %>
+              <div>
+                <%= link_to '削除', admin_post_comment_path(@post, comment),
+                                    class: 'btn btn-outline-danger btn-sm',
+                                    method: :delete,
+                                    data: {confirm: '本当に削除しても良いですか？'}%>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
     <% end %>

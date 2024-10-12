@@ -1,4 +1,5 @@
 class Public::CommentsController < ApplicationController
+  before_action :authenticate_user!
   def create
     @comment = Comment.new(comment_params)
     if @comment.save
@@ -9,6 +10,9 @@ class Public::CommentsController < ApplicationController
   end
 
   def destroy
+    comment = Post.find(params[:post_id]).comments.find(params[:id])
+    comment.destroy if comment.user == current_user
+    redirect_to post_path(params[:post_id])
   end
 
   private

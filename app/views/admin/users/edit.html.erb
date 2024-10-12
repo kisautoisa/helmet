@@ -1,0 +1,17 @@
+<div class="container py-5">
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <h2>ユーザー設定</h2>
+      <h3>ユーザー名</h3>
+      <%= @user.name %>
+      <h3>メールアドレス</h3>
+      <%= @user.email %>
+      <h3>現在のステータス</h3>
+      <%= link_to @user.is_deleted ? '<span class="text-danger">無効</span>'.html_safe : '<span class="text-primary">有効</span>'.html_safe,
+                  admin_user_path(@user),
+                  method: :patch,
+                  data: {confirm: 'フラグを反転させますがよろしいですか？'}
+      %>
+    </div>
+  </div>
+</div>
