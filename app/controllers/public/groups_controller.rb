@@ -12,8 +12,6 @@ class Public::GroupsController < ApplicationController
     @user = GroupUser.user?(current_user, params[:id])
     @users = @group.group_users
     @admins = @users.where(is_admin: true)
-    pp '---------------'
-    pp @admins
   end
 
   def create
@@ -31,12 +29,12 @@ class Public::GroupsController < ApplicationController
 
   def edit
      @group = Group.find(params[:id])
-     redirect_to group_path(@group) unless GroupUser.is_admin?(current_user)
+     redirect_to group_path(@group) unless GroupUser.is_admin?(@group, current_user)
   end
 
   def update
     @group = Group.find(params[:id])
-    redirect_to group_path(@group) unless GroupUser.is_admin?(current_user)
+    redirect_to group_path(@group) unless GroupUser.is_admin?(@group, current_user)
 
     if @group.update(group_params)
       redirect_to group_path(@group)
