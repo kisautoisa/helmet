@@ -26,8 +26,10 @@ Rails.application.routes.draw do
     resources :posts do
     resources :comments, only: [:create, :destroy]
     end
-    resources :groups, only: [:index, :new, :show, :create, :edit, :update] do
-      resources :group_users, only: [:index, :create, :destroy]
+    resources :groups do
+      resources :group_users, except: [:new, :edit]
+      post '/change_join', to: 'groups#change_join', as: 'change_join'
+      patch '/change_admin/:user_id', to: 'groups#change_admin', as: 'change_admin'
     end
     get "search" => "searches#search"
   end

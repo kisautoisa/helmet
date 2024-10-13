@@ -1,2 +1,47 @@
-<h1>Public::Groups#show</h1>
-<p>Find me in app/views/public/groups/show.html.erb</p>
+<div class="container py-5">
+  <div class="row">
+    <div class="col-12 col-lg-10 mx-auto">
+      <h2><%= @group.name %></h2>
+      <%= simple_format(@group.introduction, sanitize: true, class: 'm-0') %>
+      <div class="my-3">
+        <% if @user.nil? %>
+          <%= link_to '参加する', group_change_join_path(@group), method: :post, class: 'btn btn-outline-secondary' %>
+        <% else %>
+          <% unless @user.is_admin %>
+            <%= link_to '退会する', group_change_join_path(@group), method: :post, class: 'btn btn-outline-danger' %>
+          <% end %>
+        <% end %>
+
+        <%= link_to 'グループ編集', edit_group_path(@group), class: 'btn btn-outline-secondary' if GroupUser.is_admin?(@group, current_user) %>
+      </div>
+      <hr>
+      <h3>参加ユーザー</h3>
+      <ul>
+        <% @group.group_users.each do |gu| %>
+          <li>
+            <%= gu.user.name %> <%= gu.id %> <%= GroupUser.is_admin?(@group, gu.user).inspect %>
+            <% if @admins.count >= 1 && GroupUser.is_admin?(@group, current_user) %>
+              <% unless gu.is_admin %>
+                <%= link_to '<small>[グループ管理者に変更]</small>'.html_safe,
+                            group_change_admin_path(@group, gu.user),
+                            class: 'text-secondary',
+                            method: :patch,
+                            data: {confirm: 'グループ管理者に変更しますか？'}
+                %>
+              <% else %>
+                <% unless gu.user == current_user %>
+                  <%= link_to '<small>[一般ユーザーに変更]</small>'.html_safe,
+                              group_change_admin_path(@group, gu.user),
+                              class: 'text-danger',
+                              method: :patch,
+                              data: {confirm: '一般ユーザーに変更しますか？'}
+                  %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
