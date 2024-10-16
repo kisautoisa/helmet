@@ -10,6 +10,20 @@
     <h4>メールアドレス</h4>
     <p><%= current_user.email %></p>
 
+    <h4>参加中のグループ</h4>
+    <ul>
+      <% current_user.group_users.each do |gu| %>
+        <li>
+          <%= link_to gu.group.name, group_path(gu.group) %>
+          <ul>
+            <% Post.where(group_id: gu.group).each do |post| %>
+              <li><%= link_to post.title, post_path(post) %></li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+    </ul>
+
     <hr>
     <%= form_with model: @user, url: mypage_path, method: :patch do |f| %>
       <h2>名前変更</h2>

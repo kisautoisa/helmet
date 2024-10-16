@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
-  belongs_to :group_user
+  has_many :group_users
 
   validates :name, presence: true
 

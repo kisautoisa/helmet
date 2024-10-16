@@ -6,6 +6,15 @@
     <h4>ユーザー名</h4>
     <p><%= @user.name %></p>
 
+    <h4>参加中のグループ</h4>
+    <ul>
+      <% @user.group_users.each do |gu| %>
+        <li>
+          <%= link_to gu.group.name, group_path(gu.group) %>
+        </li>
+      <% end %>
+    </ul>
+
     </div>
   </div>
 </div>

@@ -3,19 +3,20 @@ class Public::PostsController < ApplicationController
 
   def new
     @post = Post.new
+    @join_groups = current_user.group_users.map{|gu| [gu.group.name, gu.group.id]}
   end
 
   def create
     @post = Post.new(post_params)
     if @post.save
-      redirect_to root_path
+      redirect_to group_path(@post.group_id)
     else
       render :new
     end
   end
 
   def index
-    @posts = Post.looks(params[:search], params[:word])
+    @posts = Post.looks(params[:search], params[:word]).order(created_at: :desc)
   end
 
   def show
@@ -43,7 +44,7 @@ class Public::PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :body, :image).merge(user_id: current_user.id)
+    params.require(:post).permit(:group_id, :title, :body, :image).merge(user_id: current_user.id)
   end
 
 end

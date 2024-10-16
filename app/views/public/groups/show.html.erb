@@ -19,7 +19,8 @@
       <ul>
         <% @group.group_users.each do |gu| %>
           <li>
-            <%= gu.user.name %> <%= gu.id %> <%= GroupUser.is_admin?(@group, gu.user).inspect %>
+            <%= gu.is_admin? ? '[管理者]' : '' %>
+            <%= gu.user.name %>
             <% if @admins.count >= 1 && GroupUser.is_admin?(@group, current_user) %>
               <% unless gu.is_admin %>
                 <%= link_to '<small>[グループ管理者に変更]</small>'.html_safe,
@@ -42,6 +43,50 @@
           </li>
         <% end %>
       </ul>
+      <hr>
+
+      <div class="row">
+        <% @group.posts.order(created_at: :desc).each do |post| %>
+          <div class="col-md-6 mb-3">
+            <div class="card">
+              <div class="card-header">
+
+                <span>
+                  <%= link_to post.title, post_path(post) %>
+                </span>
+
+
+              </div>
+              <div class="card-body">
+
+                  <% if post.image.attached? %>
+                    <%= image_tag post.image.variant(resize_to_limit: [150, 150]).processed, class: 'img-fluid' %>
+                  <% else %>
+                    <%= image_tag 'no_image.jpg', class: 'img-fluid' %>
+                  <% end %>
+
+                <div class="card-text">
+                  <%= post.body.truncate(10) %>
+                </div>
+              </div>
+              <div class="card-footer text-right">
+                <div>
+                  <%= post.user.name %>
+                </div>
+                <small class="text-black-50">
+                  <%= post.created_at.in_time_zone('Asia/Tokyo').strftime('%Y年%m月%d日 %H時%m分') %>
+                </small>
+                <div>
+                  <small class="text-black-50">
+                    <%= link_to post.group.name, group_path(post.group) %>
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
     </div>
   </div>
 </div>
