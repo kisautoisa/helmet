@@ -62,7 +62,7 @@
             </div>
             <% if comment.user == current_user %>
               <div>
-                <%= link_to '削除', admin_post_comment_path(@post, comment),
+                <%= link_to '削除', post_comment_path(@post, comment),
                                     class: 'btn btn-outline-danger btn-sm',
                                     method: :delete,
                                     data: {confirm: '本当に削除しても良いですか？'}%>
