@@ -54,6 +54,11 @@
             <li class="nav-item">
               <%= link_to "Home", root_path, class: "nav-link" %>
             </li>
+            
+            <li class="nav-item">
+              <%= link_to "ゲストログイン（閲覧用）", public_guest_sign_in_path, class: "nav-link", method: :post %>
+            </li>
+            
             <li class="nav-item">
               <%= link_to "Log in", new_user_session_path, class: "nav-link" %>
             </li>

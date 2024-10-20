@@ -17,7 +17,11 @@ Rails.application.routes.draw do
     registrations: "public/registrations",
     sessions: "public/sessions"
   }
-
+  
+  devise_scope :user do
+    post "public/guest_sign_in", to: "public/sessions#guest_sign_in"
+  end
+  
   # ref: https://qiita.com/ryosuketter/items/9240d8c2561b5989f049
   scope module: :public do
     get 'mypage', to: "users#mypage"
