@@ -11,6 +11,8 @@ class Public::PostsController < ApplicationController
     if @post.save
       redirect_to group_path(@post.group_id)
     else
+      @join_group_selected = post_params[:group_id]
+      @join_groups = current_user.group_users.map{|gu| [gu.group.name, gu.group.id]}
       render :new
     end
   end

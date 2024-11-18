@@ -5,7 +5,8 @@ class Public::CommentsController < ApplicationController
     if @comment.save
       redirect_to post_path(@comment.post_id)
     else
-      render 'post/show'
+      @post = Post.find(@comment.post_id)
+      render 'public/posts/show'
     end
   end
 

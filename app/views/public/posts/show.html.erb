@@ -13,7 +13,7 @@
     <p><%= @post.title %></p>
 
     <h2>本文</h2>
-    <p><%= @post.body %></p>
+    <p><%= simple_format(@post.body, sanitize: true) %></p>
 
     <h2>画像</h2>
     <% if @post.image.attached? %>
@@ -25,11 +25,18 @@
     <% if @post.user == current_user %>
       <div class="my-3">
         <%= link_to "編集", edit_post_path(@post.id), class: 'btn btn-outline-secondary' %>
-        <%= link_to "削除", post_path, method: :delete, data: {confirm: '本当に削除してもよいですか？'}, class: 'btn btn-outline-danger' %>
+        <%= link_to "削除", post_path(@post), method: :delete, data: {confirm: '本当に削除してもよいですか？'}, class: 'btn btn-outline-danger' %>
       </div>
     <% end %>
 
-
+    <% if @comment.errors.any? %>
+      <%= @comment.errors.count %>件のエラーが発生しました
+      <ul>
+        <% @comment.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    <% end %>
     <%= form_with model: @comment, url: post_comments_path(@post), method: :post do |f| %>
       <div class="form-group">
         <%= f.label :comment, 'コメント' %>
@@ -62,7 +69,7 @@
             </div>
             <% if comment.user == current_user %>
               <div>
-                <%= link_to '削除', admin_post_comment_path(@post, comment),
+                <%= link_to '削除', post_comment_path(@post, comment),
                                     class: 'btn btn-outline-danger btn-sm',
                                     method: :delete,
                                     data: {confirm: '本当に削除しても良いですか？'}%>
