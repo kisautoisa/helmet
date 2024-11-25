@@ -18,7 +18,7 @@ class Public::PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.looks(params[:search], params[:word]).order(created_at: :desc)
+    @posts = Post.looks(params[:search], params[:word]).order(created_at: :desc).page(params[:page])
   end
 
   def show
